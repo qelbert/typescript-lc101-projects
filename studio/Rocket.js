@@ -8,49 +8,60 @@ var Rocket = /** @class */ (function () {
         this.name = name;
         this.totaCapacityKg = totalCapacityKg;
     }
-    // ----- this code works too -----
     Rocket.prototype.sumMass = function (items) {
         // https://www.typescriptlang.org/docs/handbook/interfaces.html
         var sum = 0;
         for (var i = 0; i < items.length; i++) {
-            var mass = items[i].massKg;
-            sum += mass;
+            sum += items[i].massKg;
         }
         return sum;
     };
-    // ^^----- this code works -----^^
     Rocket.prototype.currentMassKg = function () {
-        var newCargo = this.cargoItems;
-        var cargoMass = newCargo.sumMass();
-        var sum = 0;
-        for (var i = 0; i < astronauts.length; i++) {
-            var mass = astronauts[i].massKg;
-            sum += mass;
-        }
-        return cargoMass + sum;
+        return this.sumMass(this.cargoItems) + this.sumMass(this.astronauts); // Matt's answer
+        //     let newCargo=this.cargoItems;
+        //     let cargoMass: number = newCargo.sumMass();
+        //     let sum: number = 0;
+        //     for (let i =0; i < astronauts.length; i ++) {
+        //         let mass = astronauts[i].massKg;
+        //         sum += mass;
+        //     }
+        //        return cargoMass + sum;
     };
     Rocket.prototype.canAdd = function (item) {
-        if ((this.currentMassKg() + item.massKg) <= this.totaCapacityKg) {
-            return true;
-        }
+        return (this.currentMassKg() + item.massKg) <= this.totaCapacityKg; // Matt's revision
+        // if ( (this.currentMassKg() + item.massKg) <= this.totaCapacityKg) {
+        //     return true
+        // }
     };
     Rocket.prototype.addCargo = function (cargo) {
-        if (this.canAdd()) {
-            this.cargoItems += cargo;
+        if (this.canAdd(cargo)) {
+            this.cargoItems.push(cargo); // Matt's revision
             return true;
         }
         else {
             return false;
         }
+        // if (this.canAdd()) {
+        //     this.cargoItems += cargo;
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     };
     Rocket.prototype.addAstronaut = function (astronaut) {
-        if (this.canAdd()) {
-            this.astronauts += astronaut;
+        if (this.canAdd(astronaut)) {
+            this.astronauts.push(astronaut); // Matt's revision
             return true;
         }
         else {
             return false;
         }
+        // if (this.canAdd()) {
+        //     this.astronauts += astronaut;
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     };
     return Rocket;
 }());
